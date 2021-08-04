@@ -3,12 +3,35 @@
  */
 package app;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import com.google.gson.Gson;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+
+public class App {
+//  The file path  "./app/src/main/resources/recentquotes.json"
+
+    public static void main(String[] args) throws IOException {
+
+
+        FileReader fileReader = new FileReader("./app/src/main/resources/recentquotes.json");
+        Gson gson = new Gson();
+
+        List<Map> list =gson.fromJson(fileReader , List.class);
+
+        int floor=0;
+        int ceil =list.size() -1 ;
+        int randomIndex = (int) (Math.random()*(floor-ceil+1)+ceil);
+
+        Map Item = list.get(randomIndex);
+
+        Quats quotes = new Quats(Item);
+        System.out.println(quotes);
+
+
+
     }
 }
