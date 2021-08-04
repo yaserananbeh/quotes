@@ -3,12 +3,59 @@
  */
 package app;
 
+import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    //    app/app/src/test/resources/recentquotes.json
+    @Test
+    void testQuatsPicker() throws FileNotFoundException {
+        System.out.println("Test the whole function SUCCESS");
+        FileReader fileReader = new FileReader("./src/test/resources/recentquotes.json");
+        Gson gson = new Gson();
+
+        List<Map> list = gson.fromJson(fileReader, List.class);
+
+        Map Item = list.get(0);
+        Quats quotes = new Quats(Item);
+//        System.out.println(quotes);
+        assertEquals("Quats{author='Marilyn Monroe', text='I am good, but not an angel. I do sin, but I am not the " +
+                        "devil. I am just a small girl in a big world trying to find someone to love.'}",
+                quotes.toString());
+    }
+    @Test
+    void testQuatsAuthor() throws FileNotFoundException {
+        System.out.println("Test the Author function SUCCESS");
+
+        FileReader fileReader = new FileReader("./src/test/resources/recentquotes.json");
+        Gson gson = new Gson();
+
+        List<Map> list = gson.fromJson(fileReader, List.class);
+
+        Map Item = list.get(1);
+        Quats quotes = new Quats(Item);
+        assertEquals("Charles Dickens",
+                quotes.getAuthor());
+    }
+    @Test
+    void testQuatsText() throws FileNotFoundException {
+        System.out.println("Test the get text function SUCCESS");
+
+        FileReader fileReader = new FileReader("./src/test/resources/recentquotes.json");
+        Gson gson = new Gson();
+
+        List<Map> list = gson.fromJson(fileReader, List.class);
+
+        Map Item = list.get(2);
+        Quats quotes = new Quats(Item);
+        assertEquals("It was one of those March days when the sun shines hot and the wind blows cold: when it is summer in the light, and winter in the shade.",
+                quotes.getText());
     }
 }
